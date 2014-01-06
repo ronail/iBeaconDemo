@@ -11,6 +11,7 @@
 
 
 static CSMBeaconRegion *_sharedInstance = nil;
+static CSMBeaconRegion *_sharedBoardcastInstance = nil;
 
 @implementation CSMBeaconRegion
 
@@ -20,6 +21,16 @@ static CSMBeaconRegion *_sharedInstance = nil;
         _sharedInstance = [[CSMBeaconRegion alloc] init];
     });
     return _sharedInstance;
+}
+
++ (instancetype)boardcastRegion
+{
+    return _sharedBoardcastInstance;
+}
+
++ (void)setBoardcastRegionMajor:(NSInteger)major andMinor:(NSInteger)minor
+{
+    _sharedBoardcastInstance = [[CSMBeaconRegion alloc] initWithMajor:major andMinor:minor];
 }
 
 - (id)init {
@@ -36,4 +47,13 @@ static CSMBeaconRegion *_sharedInstance = nil;
     return self;
 }
 
+- (id) initWithMajor:(NSInteger)major andMinor:(NSInteger)minor {
+    self = [super initWithProximityUUID:[CSMAppDelegate appDelegate].myUUID major:major minor:minor identifier:kUniqueRegionIdentifier];
+    if (self) {
+        self.notifyEntryStateOnDisplay = NO;     // only notify user if app is active
+//        self.notifyOnEntry = NO;                 // don't notify user on region entrance
+        self.notifyOnExit = YES;                 // notify user on region exit
+    }
+    return self;
+}
 @end

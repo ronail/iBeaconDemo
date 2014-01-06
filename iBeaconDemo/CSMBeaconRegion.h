@@ -11,5 +11,6 @@
 @interface CSMBeaconRegion : CLBeaconRegion
 
 + (instancetype)targetRegion;
-
++ (instancetype)boardcastRegion;
++ (void) setBoardcastRegionMajor:(NSInteger)major andMinor:(NSInteger)minor;
 @end

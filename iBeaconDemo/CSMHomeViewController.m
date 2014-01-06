@@ -10,6 +10,7 @@
 #import "CSMLocationUpdateController.h"
 #import "CSMAppDelegate.h"
 #import <SBJson/SBJson.h>
+#import "CSMBeaconRegion.h"
 
 
 #define kHorizontalPadding 20
@@ -121,6 +122,7 @@
 - (void) didRequestBeaconSetting:(NSDictionary *) dict {
     if ([dict.allKeys containsObject:@"major"] && [dict.allKeys containsObject:@"minor"]) {
         // initiate iBeacon broadcasting mode
+        [CSMBeaconRegion setBoardcastRegionMajor:[[dict objectForKey:@"major"] integerValue] andMinor:[[dict objectForKey:@"minor"] integerValue]];
         [self presentControllerInLocationMode:CSMApplicationModePeripheral];
     }
 }

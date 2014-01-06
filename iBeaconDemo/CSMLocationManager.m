@@ -53,7 +53,7 @@ static CSMLocationManager *_sharedInstance = nil;
 - (void)startAdvertisingBeacon {
     // initialize new CLBeaconRegion and start advertising target region
     if (![self.peripheralManager isAdvertising]) {
-        self.peripheralData = [[CSMBeaconRegion targetRegion] peripheralDataWithMeasuredPower:nil];
+        self.peripheralData = [[CSMBeaconRegion boardcastRegion] peripheralDataWithMeasuredPower:nil];
         [self.peripheralManager startAdvertising:self.peripheralData];
     }
 }
