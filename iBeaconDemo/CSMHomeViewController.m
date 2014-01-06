@@ -9,11 +9,13 @@
 #import "CSMHomeViewController.h"
 #import "CSMLocationUpdateController.h"
 #import "CSMAppDelegate.h"
+#import <SBJson/SBJson.h>
+
 
 #define kHorizontalPadding 20
 #define kVerticalPadding 10
 
-@interface CSMHomeViewController ()
+@interface CSMHomeViewController () <UIAlertViewDelegate>
 
 @property (nonatomic, strong) UILabel            *instructionLabel;
 @property (nonatomic, strong) UISegmentedControl *segmentedControl;
@@ -76,22 +78,59 @@
 
 - (void)handleToggle:(id)sender {
     
-    CSMLocationUpdateController *monitoringController;
-    
     if (self.segmentedControl.selectedSegmentIndex == 0) {
-        
-        // initiate iBeacon broadcasting mode
-        monitoringController = [[CSMLocationUpdateController alloc] initWithLocationMode:CSMApplicationModePeripheral];
-        
-    } else {
-        
+        [self promptBeaconId];
+    }else {
         // initate peripheral iBeacon monitoring mode
-        monitoringController = [[CSMLocationUpdateController alloc] initWithLocationMode:CSMApplicationModeRegionMonitoring];
+        [self presentControllerInLocationMode:CSMApplicationModeRegionMonitoring];
     }
+}
+
+- (void) presentControllerInLocationMode:(CSMApplicationMode)mode{
+    
+    CSMLocationUpdateController *monitoringController = [[CSMLocationUpdateController alloc] initWithLocationMode:mode];
+//        // initiate iBeacon broadcasting mode
+//        monitoringController = [[CSMLocationUpdateController alloc] initWithLocationMode:CSMApplicationModePeripheral];
+//        
+//    } else {
+//        
+//        // initate peripheral iBeacon monitoring mode
+//        monitoringController = [[CSMLocationUpdateController alloc] initWithLocationMode:CSMApplicationModeRegionMonitoring];
+//    }
     
     // present update controller
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:monitoringController];
     [self presentViewController:navController animated:YES completion:NULL];
 }
 
+#pragma mark - Beacon Identification
+- (void) promptBeaconId {
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:@"Beacon ID" message:@"Input a identifier for this beacon" delegate:self cancelButtonTitle:@"Cancel" otherButtonTitles:@"OK", nil];
+    [alertView setAlertViewStyle:UIAlertViewStylePlainTextInput];
+    [alertView show];
+}
+
+- (void) requestBeaconSettingWithId:(NSString *)beaconId {
+    
+    SBJsonParser *parser = [[SBJsonParser alloc] init];
+    NSDictionary *dict = [parser objectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://dl.dropboxusercontent.com/u/76543370/beacons.json"]]];
+    NSDictionary *settingDict = [dict objectForKey:beaconId];
+    [self performSelectorOnMainThread:@selector(didRequestBeaconSetting:) withObject:settingDict waitUntilDone:NO];
+}
+
+- (void) didRequestBeaconSetting:(NSDictionary *) dict {
+    if ([dict.allKeys containsObject:@"major"] && [dict.allKeys containsObject:@"minor"]) {
+        // initiate iBeacon broadcasting mode
+        [self presentControllerInLocationMode:CSMApplicationModePeripheral];
+    }
+}
+
+#pragma mark - UI Alert View Delegate
+- (void)alertView:(UIAlertView *)alertView didDismissWithButtonIndex:(NSInteger)buttonIndex
+{
+    NSString *beaconId = [alertView textFieldAtIndex:0].text;
+    if (beaconId.length != 0) {
+        [self performSelectorInBackground:@selector(requestBeaconSettingWithId:) withObject:beaconId];
+    }
+}
 @end
