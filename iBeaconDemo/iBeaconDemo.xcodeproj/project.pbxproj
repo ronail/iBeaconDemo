@@ -299,6 +299,7 @@
 				GCC_PREFIX_HEADER = "iBeaconDemo/iBeaconDemo-Prefix.pch";
 				INFOPLIST_FILE = "iBeaconDemo/iBeaconDemo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -312,6 +313,7 @@
 				GCC_PREFIX_HEADER = "iBeaconDemo/iBeaconDemo-Prefix.pch";
 				INFOPLIST_FILE = "iBeaconDemo/iBeaconDemo-Info.plist";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
