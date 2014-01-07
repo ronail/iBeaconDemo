@@ -11,6 +11,7 @@
 #import "CSMAppDelegate.h"
 #import <SBJson/SBJson.h>
 #import "CSMBeaconRegion.h"
+#import "CSMBeaconManager.h"
 
 
 #define kHorizontalPadding 20
@@ -111,18 +112,10 @@
     [alertView show];
 }
 
-- (void) requestBeaconSettingWithId:(NSString *)beaconId {
-    
-    SBJsonParser *parser = [[SBJsonParser alloc] init];
-    NSDictionary *dict = [parser objectWithData:[NSData dataWithContentsOfURL:[NSURL URLWithString:@"https://dl.dropboxusercontent.com/u/76543370/beacons.json"]]];
-    NSDictionary *settingDict = [dict objectForKey:beaconId];
-    [self performSelectorOnMainThread:@selector(didRequestBeaconSetting:) withObject:settingDict waitUntilDone:NO];
-}
-
-- (void) didRequestBeaconSetting:(NSDictionary *) dict {
-    if ([dict.allKeys containsObject:@"major"] && [dict.allKeys containsObject:@"minor"]) {
+- (void) didRequestBeaconSetting:(CSMBeaconSetting *) dict {
+    if ([dict.dictionary.allKeys containsObject:@"major"] && [dict.dictionary.allKeys containsObject:@"minor"]) {
         // initiate iBeacon broadcasting mode
-        [CSMBeaconRegion setBoardcastRegionMajor:[[dict objectForKey:@"major"] integerValue] andMinor:[[dict objectForKey:@"minor"] integerValue]];
+        [CSMBeaconRegion setBoardcastRegionMajor:dict.major andMinor:dict.minor];
         [self presentControllerInLocationMode:CSMApplicationModePeripheral];
     }
 }
@@ -132,7 +125,9 @@
 {
     NSString *beaconId = [alertView textFieldAtIndex:0].text;
     if (beaconId.length != 0) {
-        [self performSelectorInBackground:@selector(requestBeaconSettingWithId:) withObject:beaconId];
+        [[CSMBeaconManager defaultManager] requestUpdateBeaconSettingWithHandler:^(NSArray *array) {
+            [self didRequestBeaconSetting:[[CSMBeaconManager defaultManager] beaconSettingWithId:beaconId]];
+        }];
     }
 }
 @end

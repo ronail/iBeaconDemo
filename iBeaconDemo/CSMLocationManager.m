@@ -11,6 +11,7 @@
 #import "CSMAppDelegate.h"
 #import "CSMBeaconRegion.h"
 #import <CoreBluetooth/CoreBluetooth.h>
+#import "CSMBeaconManager.h"
 
 #define kLocationUpdateNotification @"updateNotification"
 
@@ -109,12 +110,15 @@ static CSMLocationManager *_sharedInstance = nil;
             status = @"Bluetooth service is currently powered off on this device.";
             break;
             
-        case CBPeripheralManagerStatePoweredOn:
+        case CBPeripheralManagerStatePoweredOn:{
             // start advertising CLBeaconRegion
-            status = @"Now advertising iBeacon signal.  Monitor other device for location updates.";
+//            status = @"Now advertising iBeacon signal.  Monitor other device for location updates.";
+            CSMBeaconSetting *setting = [[CSMBeaconManager defaultManager] beaconSettingWithMajor:[CSMBeaconRegion boardcastRegion].major.integerValue minor:[CSMBeaconRegion boardcastRegion].minor.integerValue];
+            status = [NSString stringWithFormat:@"Now advertising %@ signal.  Monitor other device for location updates.", setting.beaconId];
+            
             [self startAdvertisingBeacon];
             break;
-            
+        }
         case CBPeripheralManagerStateResetting:
             // Temporarily lost connection
             status = @"Bluetooth connection was lost.  Waiting for update...";
@@ -223,17 +227,27 @@ static CSMLocationManager *_sharedInstance = nil;
     // identify closest beacon in range
     if ([beacons count] > 0) {
         CLBeacon *closestBeacon = beacons[0];
+        CSMBeaconSetting *setting = [[CSMBeaconManager defaultManager] beaconSettingWithMajor:closestBeacon.major.integerValue minor:closestBeacon.minor.integerValue];
         if (closestBeacon.proximity == CLProximityImmediate) {
             /**
              Provide proximity based information to user.  You may choose to do this repeatedly
              or only once depending on the use case.  Optionally use major, minor values here to provide beacon-specific content
              */
-            [self fireUpdateNotificationForStatus:@"You are in the immediate vicinity of the Beacon."];
+            [self fireUpdateNotificationForStatus:[NSString stringWithFormat:@"You are in the immediate vicinity of %@.", setting.beaconId]];
             
         } else if (closestBeacon.proximity == CLProximityNear) {
             // detect other nearby beacons
             // optionally hide previously displayed proximity based information
-            [self fireUpdateNotificationForStatus:@"There are Beacons nearby."];
+            NSMutableString *namesMutableString = [[NSMutableString alloc] init];
+            for (CLBeacon *beacon in beacons) {
+                CSMBeaconSetting *setting = [[CSMBeaconManager defaultManager] beaconSettingWithMajor:beacon.major.integerValue minor:beacon.minor.integerValue];
+                if (namesMutableString.length == 0) {
+                    [namesMutableString appendString:setting.beaconId];
+                }else {
+                    [namesMutableString appendFormat:@", %@", setting.beaconId];
+                }
+            }
+            [self fireUpdateNotificationForStatus:[NSString stringWithFormat:@"%@ are nearby.", namesMutableString]];
         }
     } else {
         // no beacons in range - signal may have been lost
