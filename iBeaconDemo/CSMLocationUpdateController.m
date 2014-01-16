@@ -7,14 +7,11 @@
 //
 
 #import "CSMLocationUpdateController.h"
-#import "CSMLocationManager.h"
-#import "CSMBeaconRegion.h"
+#import <VSBeaconManager/VSBeaconManager.h>
 #import <QuartzCore/QuartzCore.h>
 
 #define kDefaultPadding 25
 #define kVerticalPadding 15
-
-#define kLocationUpdateNotification @"updateNotification"
 
 #define kLabelText [CSMAppDelegate appDelegate].applicationMode == CSMApplicationModePeripheral ? @"iBeacon Status:" : @"Region Monitoring Status:";
 
@@ -99,8 +96,9 @@
     // add observer for location notifications
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(handleStatusUpdate:)
-                                                 name:kLocationUpdateNotification
+                                                 name:VSLocationManagerStateUpdateNotification
                                                object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(handleStatusUpdate:) name:VSBeaconsRangedNotification object:nil];
     
     if ([CSMAppDelegate appDelegate].applicationMode == CSMApplicationModePeripheral) {
         
@@ -120,16 +118,17 @@
     if ([CSMAppDelegate appDelegate].applicationMode == CSMApplicationModePeripheral) {
         
         // stop advertising Beacon
-        [[CSMLocationManager sharedManager] stopAdvertisingBeacon];
+        [[VSBluetoothLocationManager defaultManager] stopAdvertisingBeacon];
         
     } else {
         
         // stop region monitoring
-        [[CSMLocationManager sharedManager] stopMonitoringForRegion:[CSMBeaconRegion targetRegion]];
+        [[VSBluetoothLocationManager defaultManager] stopMonitoringForRegion];
     }
     
     // remove notifications observer
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:kLocationUpdateNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:VSLocationManagerStateUpdateNotification object:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:VSBeaconsRangedNotification object:nil];
 }
 
 
@@ -137,14 +136,14 @@
 
 - (void)enableRegionMonitoringMode {
     
-    [[CSMLocationManager sharedManager] initializeRegionMonitoring];
+    [[VSBluetoothLocationManager defaultManager] initializeRegionMonitoring];
     
     self.title = @"Monitoring iBeacons";
 }
 
 - (void)enablePeripheralMode {
     
-    [[CSMLocationManager sharedManager] initializePeripheralManager];
+    [[VSBluetoothLocationManager defaultManager] initializePeripheralManager];
     
     self.title = @"Broadcasting iBeacon";
 }
@@ -160,7 +159,6 @@
 #pragma mark - Notifications
 
 - (void)handleStatusUpdate:(NSNotification*)notification {
-    
     // update status message displayed
     self.statusView.text = notification.userInfo[@"status"];
     

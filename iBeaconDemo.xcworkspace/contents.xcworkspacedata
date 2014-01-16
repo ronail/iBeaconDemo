@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:VSBeaconManager/VSBeaconManager.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:iBeaconDemo.xcodeproj">
    </FileRef>
    <FileRef

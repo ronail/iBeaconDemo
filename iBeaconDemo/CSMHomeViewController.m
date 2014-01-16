@@ -10,8 +10,8 @@
 #import "CSMLocationUpdateController.h"
 #import "CSMAppDelegate.h"
 #import <SBJson/SBJson.h>
-#import "CSMBeaconRegion.h"
 #import "CSMBeaconManager.h"
+#import <VSBeaconManager/VSBeaconManager.h>
 
 
 #define kHorizontalPadding 20
@@ -112,12 +112,10 @@
     [alertView show];
 }
 
-- (void) didRequestBeaconSetting:(CSMBeaconSetting *) dict {
-    if ([dict.dictionary.allKeys containsObject:@"major"] && [dict.dictionary.allKeys containsObject:@"minor"]) {
-        // initiate iBeacon broadcasting mode
-        [CSMBeaconRegion setBoardcastRegionMajor:dict.major andMinor:dict.minor];
-        [self presentControllerInLocationMode:CSMApplicationModePeripheral];
-    }
+- (void) didRequestBeaconSetting:(VSBeaconSetting *) setting {
+    // initiate iBeacon broadcasting mode
+    [VSBeaconRegion setBoardcastRegionProximityUUID:[CSMAppDelegate appDelegate].myUUID identifier:kUniqueRegionIdentifier major:setting.major minor:setting.minor];
+    [self presentControllerInLocationMode:CSMApplicationModePeripheral];
 }
 
 #pragma mark - UI Alert View Delegate
@@ -126,7 +124,10 @@
     NSString *beaconId = [alertView textFieldAtIndex:0].text;
     if (beaconId.length != 0) {
         [[CSMBeaconManager defaultManager] requestUpdateBeaconSettingWithHandler:^(NSArray *array) {
-            [self didRequestBeaconSetting:[[CSMBeaconManager defaultManager] beaconSettingWithId:beaconId]];
+            for (NSDictionary *dict in array) {
+                [[VSBeaconManager defaultManager] addSetting:[[VSBeaconSetting alloc] initWithDictionary:dict]];
+            }
+            [self didRequestBeaconSetting:[[VSBeaconManager defaultManager] beaconSettingWithId:beaconId]];
         }];
     }
 }

@@ -1,0 +1,3 @@
+[submodule "VSBeaconManager"]
+	path = VSBeaconManager
+	url = git@bitbucket.org:vissme/vsbeaconmanager.git

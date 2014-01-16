@@ -18,7 +18,5 @@
 
 @interface CSMBeaconManager : NSObject
 + (instancetype)defaultManager;
-- (CSMBeaconSetting *) beaconSettingWithId:(NSString *)beaconId;
 - (void) requestUpdateBeaconSettingWithHandler:(void (^)(NSArray *settings)) handler;
-- (CSMBeaconSetting *) beaconSettingWithMajor:(NSInteger)major minor:(NSInteger)minor;
 @end

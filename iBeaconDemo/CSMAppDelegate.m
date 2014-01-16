@@ -7,6 +7,7 @@
 //
 
 #import "CSMAppDelegate.h"
+#import <VSBeaconManager/VSBeaconManager.h>
 
 #define kMyStoreNumber 1
 #define kWeeklySpecialItemNumber 1
@@ -42,6 +43,9 @@
     self.window.backgroundColor = [UIColor whiteColor];
     self.window.tintColor = kAppTintColor;
     [self.window makeKeyAndVisible];
+    
+    [VSBluetoothLocationManager defaultManager].uuid = self.myUUID;
+    [VSBluetoothLocationManager defaultManager].identifier = kUniqueRegionIdentifier;
     
     return YES;
 }

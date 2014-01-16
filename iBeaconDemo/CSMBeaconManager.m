@@ -9,32 +9,6 @@
 #import "CSMBeaconManager.h"
 #import <SBJson/SBJson.h>
 
-@implementation CSMBeaconSetting
-- (id)initWithDictionary:(NSDictionary *)dictionary
-{
-    self = [super init];
-    if (self) {
-        _dictionary = dictionary;
-    }
-    return self;
-}
-
-- (NSString *)beaconId
-{
-    return [self.dictionary objectForKey:@"id"];
-}
-
-- (NSInteger) major
-{
-    return [[self.dictionary objectForKey:@"major"] integerValue];
-}
-
-- (NSInteger) minor
-{
-    return [[self.dictionary objectForKey:@"minor"] integerValue];
-}
-@end
-
 static CSMBeaconManager *_sharedInstance = nil;
 
 @interface CSMBeaconManager ()
@@ -69,38 +43,5 @@ static CSMBeaconManager *_sharedInstance = nil;
                 handler(dict);
         }];
     }];
-}
-
-- (CSMBeaconSetting *) beaconSettingWithId:(NSString *)beaconId{
-    CSMBeaconSetting *setting = nil;
-    for (NSDictionary *dict in self.settings) {
-        if ([[dict objectForKey:@"id"] isEqualToString:beaconId]) {
-            return [[CSMBeaconSetting alloc] initWithDictionary:dict];
-        }
-    }
-    return setting;
-}
-
-- (NSArray *)settings {
-    SBJsonParser *parser = [[SBJsonParser alloc] init];
-//    NSString *filePath = [[NSBundle mainBundle] pathForResource:@"beacons" ofType:@"json"];
-    
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *documentsDirectory = [paths objectAtIndex:0];
-    NSString *filePath = [NSString stringWithFormat:@"%@/%@", documentsDirectory, @"beacons.json"];
-    
-    NSError *error = nil;
-    return [parser objectWithData:[NSData dataWithContentsOfFile:filePath options:NSDataReadingMappedIfSafe error:&error]];
-}
-
-- (CSMBeaconSetting *)beaconSettingWithMajor:(NSInteger)major minor:(NSInteger)minor {
-    CSMBeaconSetting *setting = nil;
-    for (NSDictionary *dict in self.settings) {
-        if ([[dict objectForKey:@"major"] integerValue] == major && [[dict objectForKey:@"minor"] integerValue] == minor ) {
-            setting = [[CSMBeaconSetting alloc] initWithDictionary:dict];
-            break;
-        }
-    }
-    return setting;
 }
 @end

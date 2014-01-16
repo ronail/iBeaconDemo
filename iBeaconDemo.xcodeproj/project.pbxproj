@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		D06F566E1887C507001A23D3 /* libVSBeaconManager.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D06F566D1887C507001A23D3 /* libVSBeaconManager.a */; };
 		D0CCEA72187BB0A0003A25F1 /* beacons.json in Resources */ = {isa = PBXBuildFile; fileRef = D0CCEA71187BB0A0003A25F1 /* beacons.json */; };
 		D0CCEA75187BB583003A25F1 /* CSMBeaconManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D0CCEA74187BB583003A25F1 /* CSMBeaconManager.m */; };
 		D573F8E41805C469001004B2 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D573F8E31805C469001004B2 /* Foundation.framework */; };
@@ -16,9 +17,7 @@
 		D573F8F01805C469001004B2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = D573F8EF1805C469001004B2 /* main.m */; };
 		D573F8F61805C469001004B2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D573F8F51805C469001004B2 /* Images.xcassets */; };
 		D573F91E1805C4A5001004B2 /* CSMAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = D573F9181805C4A5001004B2 /* CSMAppDelegate.m */; };
-		D573F91F1805C4A5001004B2 /* CSMBeaconRegion.m in Sources */ = {isa = PBXBuildFile; fileRef = D573F9191805C4A5001004B2 /* CSMBeaconRegion.m */; };
 		D573F9201805C4A5001004B2 /* CSMHomeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D573F91A1805C4A5001004B2 /* CSMHomeViewController.m */; };
-		D573F9211805C4A5001004B2 /* CSMLocationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = D573F91B1805C4A5001004B2 /* CSMLocationManager.m */; };
 		D573F9221805C4A5001004B2 /* CSMLocationUpdateController.m in Sources */ = {isa = PBXBuildFile; fileRef = D573F91C1805C4A5001004B2 /* CSMLocationUpdateController.m */; };
 		D573F9231805C4A5001004B2 /* CSMRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = D573F91D1805C4A5001004B2 /* CSMRootViewController.m */; };
 		D5A433401808415F00228EFC /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D573F927180601B1001004B2 /* CoreLocation.framework */; };
@@ -29,6 +28,7 @@
 /* Begin PBXFileReference section */
 		087D1F894C3E464D8DB0BE7B /* Pods.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.xcconfig; path = Pods/Pods.xcconfig; sourceTree = "<group>"; };
 		87CDF8D3A09A4CA1B2DD5717 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		D06F566D1887C507001A23D3 /* libVSBeaconManager.a */ = {isa = PBXFileReference; lastKnownFileType = file; name = libVSBeaconManager.a; path = "VSBeaconManager/build/Debug-iphoneos/libVSBeaconManager.a"; sourceTree = "<group>"; };
 		D0CCEA71187BB0A0003A25F1 /* beacons.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = beacons.json; sourceTree = "<group>"; };
 		D0CCEA73187BB583003A25F1 /* CSMBeaconManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSMBeaconManager.h; sourceTree = "<group>"; };
 		D0CCEA74187BB583003A25F1 /* CSMBeaconManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSMBeaconManager.m; sourceTree = "<group>"; };
@@ -43,15 +43,11 @@
 		D573F8F51805C469001004B2 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		D573F8FC1805C469001004B2 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		D573F9121805C4A5001004B2 /* CSMAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSMAppDelegate.h; sourceTree = "<group>"; };
-		D573F9131805C4A5001004B2 /* CSMBeaconRegion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSMBeaconRegion.h; sourceTree = "<group>"; };
 		D573F9141805C4A5001004B2 /* CSMHomeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSMHomeViewController.h; sourceTree = "<group>"; };
-		D573F9151805C4A5001004B2 /* CSMLocationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSMLocationManager.h; sourceTree = "<group>"; };
 		D573F9161805C4A5001004B2 /* CSMLocationUpdateController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSMLocationUpdateController.h; sourceTree = "<group>"; };
 		D573F9171805C4A5001004B2 /* CSMRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CSMRootViewController.h; sourceTree = "<group>"; };
 		D573F9181805C4A5001004B2 /* CSMAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSMAppDelegate.m; sourceTree = "<group>"; };
-		D573F9191805C4A5001004B2 /* CSMBeaconRegion.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSMBeaconRegion.m; sourceTree = "<group>"; };
 		D573F91A1805C4A5001004B2 /* CSMHomeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSMHomeViewController.m; sourceTree = "<group>"; };
-		D573F91B1805C4A5001004B2 /* CSMLocationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSMLocationManager.m; sourceTree = "<group>"; };
 		D573F91C1805C4A5001004B2 /* CSMLocationUpdateController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSMLocationUpdateController.m; sourceTree = "<group>"; };
 		D573F91D1805C4A5001004B2 /* CSMRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CSMRootViewController.m; sourceTree = "<group>"; };
 		D573F927180601B1001004B2 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
@@ -63,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D06F566E1887C507001A23D3 /* libVSBeaconManager.a in Frameworks */,
 				D5A433421808417600228EFC /* CoreBluetooth.framework in Frameworks */,
 				D5A433401808415F00228EFC /* CoreLocation.framework in Frameworks */,
 				D573F8E61805C469001004B2 /* CoreGraphics.framework in Frameworks */,
@@ -96,6 +93,7 @@
 		D573F8E21805C469001004B2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				D06F566D1887C507001A23D3 /* libVSBeaconManager.a */,
 				D5A433411808417600228EFC /* CoreBluetooth.framework */,
 				D573F927180601B1001004B2 /* CoreLocation.framework */,
 				D573F8E31805C469001004B2 /* Foundation.framework */,
@@ -118,10 +116,6 @@
 				D573F91A1805C4A5001004B2 /* CSMHomeViewController.m */,
 				D573F9161805C4A5001004B2 /* CSMLocationUpdateController.h */,
 				D573F91C1805C4A5001004B2 /* CSMLocationUpdateController.m */,
-				D573F9151805C4A5001004B2 /* CSMLocationManager.h */,
-				D573F91B1805C4A5001004B2 /* CSMLocationManager.m */,
-				D573F9131805C4A5001004B2 /* CSMBeaconRegion.h */,
-				D573F9191805C4A5001004B2 /* CSMBeaconRegion.m */,
 				D573F8F51805C469001004B2 /* Images.xcassets */,
 				D573F8EA1805C469001004B2 /* Supporting Files */,
 				D0CCEA73187BB583003A25F1 /* CSMBeaconManager.h */,
@@ -247,8 +241,6 @@
 				D573F8F01805C469001004B2 /* main.m in Sources */,
 				D0CCEA75187BB583003A25F1 /* CSMBeaconManager.m in Sources */,
 				D573F9221805C4A5001004B2 /* CSMLocationUpdateController.m in Sources */,
-				D573F91F1805C4A5001004B2 /* CSMBeaconRegion.m in Sources */,
-				D573F9211805C4A5001004B2 /* CSMLocationManager.m in Sources */,
 				D573F9231805C4A5001004B2 /* CSMRootViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
