@@ -83,22 +83,19 @@
     if (self.segmentedControl.selectedSegmentIndex == 0) {
         [self promptBeaconId];
     }else {
-        // initate peripheral iBeacon monitoring mode
-        [self presentControllerInLocationMode:CSMApplicationModeRegionMonitoring];
+        [[CSMBeaconManager defaultManager] requestUpdateBeaconSettingWithHandler:^(NSArray *array) {
+            for (NSDictionary *dict in array) {
+                [[VSBeaconManager defaultManager] addSetting:[[VSBeaconSetting alloc] initWithDictionary:dict]];
+            }
+            // initate peripheral iBeacon monitoring mode
+            [self presentControllerInLocationMode:CSMApplicationModeRegionMonitoring];
+        }];
     }
 }
 
 - (void) presentControllerInLocationMode:(CSMApplicationMode)mode{
     
     CSMLocationUpdateController *monitoringController = [[CSMLocationUpdateController alloc] initWithLocationMode:mode];
-//        // initiate iBeacon broadcasting mode
-//        monitoringController = [[CSMLocationUpdateController alloc] initWithLocationMode:CSMApplicationModePeripheral];
-//        
-//    } else {
-//        
-//        // initate peripheral iBeacon monitoring mode
-//        monitoringController = [[CSMLocationUpdateController alloc] initWithLocationMode:CSMApplicationModeRegionMonitoring];
-//    }
     
     // present update controller
     UINavigationController *navController = [[UINavigationController alloc] initWithRootViewController:monitoringController];
